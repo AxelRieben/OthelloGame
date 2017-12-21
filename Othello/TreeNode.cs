@@ -14,9 +14,10 @@ namespace Othello
         /// <summary>
         /// Evaluation function
         /// </summary>
-        public void Eval()
+        public int Eval()
         {
-           //TODO 
+            //TODO
+            return 0;
         }
 
         /// <summary>
