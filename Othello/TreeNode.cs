@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IPlayable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,23 @@ namespace Othello
             double coinDiff;
             double mobility;
             double corners;
+            double xSquare;
+            double cSquare;
             double stability;
 
-            int[,] board = board.GetBoard();
-            int whiteScore = board.GetWhiteScore();
-            int blackScore = board.GetBlackScore();
+            GameBoard gameBoard = new GameBoard();
 
-            int whitePossibilities = getPossibilities(board);
-            int blackPossibilites = getPossibilities(board);
+            int[,] board = gameBoard.GetBoard();
+            int whiteScore = gameBoard.GetWhiteScore();
+            int blackScore = gameBoard.GetBlackScore();
+
+            int whitePossibilities = getPossibilities(board,true,gameBoard);
+            int blackPossibilites = getPossibilities(board,false,gameBoard);
 
             int whiteCorners = 0;
             int BlackCorners = 0;
-            getCorners(ref whiteCorners, ref BlackCorners);
+            getCorners(ref whiteCorners, ref BlackCorners,board);
+
             coinDiff = 100 * (whiteScore - blackScore) / (whiteScore + blackScore);
             if (whitePossibilities + blackPossibilites != 0)
             {
@@ -42,32 +48,79 @@ namespace Othello
             {
                 mobility = 0;
             }
-                
+            if (whiteCorners + BlackCorners != 0)
+            {
+                corners = 100 * (whiteCorners -BlackCorners) / (whiteCorners + BlackCorners);
+            }
+            else
+            {
+                corners = 0;
+            }
+            int whiteStability=getStability(board);
+            int blackStability=getStability(board);
+            
+
+            if (whiteStability + blackStability != 0)
+            {
+                stability = 100 * (whiteStability - blackStability) / (whiteStability + blackStability);
+            }
+            else
+            {
+                stability = 0;
+            }
             return 0;
         }
 
-        private void getCorners(ref int whiteCorners, ref int blackCorners)
+        private int getStability(int[,] board)
         {
-            Point[] cases ={
-                new Point(0, 0),
-                new Point(7, 0),
-                new Point(0, 7),
-                new Point(7, 7),
-            };
-            foreach(Point p in cases)
+            int totalStability=0;
+            int caseStability; 
+            for (int i = 0; i < 8; i++)
             {
+                for (int j = 0; i < 8; j++)
+                {
+                    caseStability = ;
+                    totalStability += caseStability;
+                }
+            }
+            return totalStability;
+        }
 
+        private void getCorners(ref int whiteCorners, ref int blackCorners, int[,] board)
+        {
+
+            Tuple<int, int>[] cases ={
+                new Tuple<int, int>(0, 0),
+                new Tuple<int, int>(0, 7),
+                new Tuple<int, int>(7, 0),
+                new Tuple<int, int>(7, 7),
+            };
+            foreach (Tuple<int, int> p in cases)
+            {
+                
+            switch(board[p.Item1, p.Item2])
+                {
+                    case 0:
+                        whiteCorners++;
+                        break;
+                    case 1:
+                        blackCorners++;
+                        break;
+                    default:
+                        break;
+                }
+                
             }
         }
 
-        private int getPossibilities(int[,] board)
+        private int getPossibilities(int[,] board,bool isWhite,GameBoard gameboard)
         {
             int count = 0;
             for(int i = 0; i < 8; i++)
             {
                 for(int j = 0; i < 8; j++)
                 {
-                    if(IPlayable().isPlayable(i, j))
+                    if(gameboard.IsPlayable(i, j,isWhite))
                     {
                         count++;
                     }
