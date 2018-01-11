@@ -11,7 +11,7 @@ namespace Othello
 
         public static Tuple<int, TreeNode<int>> AlphaBeta(TreeNode<int> root, int depth)
         {
-            Tuple<int, TreeNode<int>> result = Max(root, depth);
+            Tuple<int, TreeNode<int>> result = Max(root, int.MaxValue, depth);
             return result;
         }
 
