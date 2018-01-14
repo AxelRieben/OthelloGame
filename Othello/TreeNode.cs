@@ -79,8 +79,8 @@ namespace Othello
             {
                 for (int j = 0; i < 8; j++)
                 {
-                    caseStability = ;
-                    totalStability += caseStability;
+                    //caseStability = ;
+                    //totalStability += caseStability;
                 }
             }
             return totalStability;
