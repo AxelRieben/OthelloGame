@@ -26,7 +26,7 @@ namespace Othello
             double cSquare;
             double stability;
 
-            GameBoard gameBoard = new GameBoard();
+            Board gameBoard = new Board();
 
             int[,] board = gameBoard.GetBoard();
             int whiteScore = gameBoard.GetWhiteScore();
@@ -113,7 +113,7 @@ namespace Othello
             }
         }
 
-        private int getPossibilities(int[,] board,bool isWhite,GameBoard gameboard)
+        private int getPossibilities(int[,] board,bool isWhite,Board gameboard)
         {
             int count = 0;
             for(int i = 0; i < 8; i++)

@@ -8,13 +8,13 @@ using OthelloDLL;
 
 namespace IPlayable
 {
-    public class GameBoard : IPlayable
+    public class Board : IPlayable
     {
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
 
-        public GameBoard()
+        public Board()
         {
             initGame();
         }
@@ -57,7 +57,18 @@ namespace IPlayable
 
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
-            throw new NotImplementedException();
+            Tuple<int, int> play = new Tuple<int, int>(-1, -1);
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    if (IsPlayable(i, j, false))
+                    {
+                        return new Tuple<int, int>(i, j);
+                    }
+                }
+            }
+            return play;
         }
 
         public int GetWhiteScore()
@@ -75,7 +86,7 @@ namespace IPlayable
             return IsPlayableFlipOption(column, line, isWhite, true);
         }
 
-        private bool IsPlayableFlipOption(int column, int line, bool isWhite,bool flipCatchedTile)
+        private bool IsPlayableFlipOption(int column, int line, bool isWhite, bool flipCatchedTile)
         {
             int myColor = isWhite ? 0 : 1;
             int opponentColor = isWhite ? 1 : 0;
@@ -91,7 +102,6 @@ namespace IPlayable
             }
             //then we look for opponent piece in the v8 neighbourhood , this will tell us the possible direction
             List<Tuple<int, int>> vulnerableNeighbour = getDirection(column, line, opponentColor);
-
             if (!flipCatchedTile)
             {
                 //check if neighbour can be taken
@@ -106,35 +116,35 @@ namespace IPlayable
             }
             else
             {
-                int nbTilesFliped=0;
+                int nbTilesFliped = 0;
                 foreach (Tuple<int, int> a in vulnerableNeighbour)
                 {
                     nbTilesFliped += FlipDirection(column, line, a.Item1, a.Item2, myColor);
-                    if(nbTilesFliped == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
                 }
-                return false;
+                if (nbTilesFliped == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
             }
         }
 
         private bool CheckIfTileExist(int column, int line, int xMove, int yMove)
         {
-           return(column + xMove <= 7 && line + yMove <= 7 && column + xMove >= 0 && line + yMove >= 0);
+            return (column + xMove <= 7 && line + yMove <= 7 && column + xMove >= 0 && line + yMove >= 0);
         }
         private List<Tuple<int, int>> getDirection(int column, int line, int opponentColor)
         {
             List<Tuple<int, int>> vulnerableNeighbour = new List<Tuple<int, int>>();
-            for (int i = -1; i < 1; i++)
+            for (int i = -1; i <= 1; i++)
             {
-                for (int j = -1; j < 1; j++)
+                for (int j = -1; j <= 1; j++)
                 {
-                    if (i != 0 && j != 0)
+                    if ((i != 0) || (j != 0))
                     {
                         //check if direction is valid
                         if (CheckIfTileExist(column, line, i, j))
@@ -154,23 +164,23 @@ namespace IPlayable
         private bool CheckDirection(int column, int line, int xMove, int yMove, int myColor)
         {
             //check the direction | maximal distance = 6
-            for(int i = 2; i <= 6; i++)
+            for (int i = 2; i <= 6; i++)
             {
-                if(CheckIfTileExist(column, line, xMove * i, yMove * i))
+                if (CheckIfTileExist(column, line, xMove * i, yMove * i))
                 {
-                    int tileValue = board[column + xMove, line + yMove];
-                    //if tile is empty we can place our disc here
-                    if(tileValue == -1)
-                    {
-                        return true;
-                    }
-                    //if tile has already a disc with my color i can't place it
-                    else if(tileValue == myColor)
+                    int tileValue = board[column + xMove * i, line + yMove * i];
+                    //if tile is empty it's not possible to place my disc
+                    if (tileValue == -1)
                     {
                         return false;
                     }
+                    //if tile has already a disc with my color the move is legal
+                    else if (tileValue == myColor)
+                    {
+                        return true;
+                    }
                     //if tile has already a disc with the color of my opponent i can maybe place my disc later
-                    else if (tileValue == 1-myColor)
+                    else if (tileValue == 1 - myColor)
                     {
                         continue;
                     }
@@ -191,21 +201,21 @@ namespace IPlayable
         private int FlipDirection(int column, int line, int xMove, int yMove, int myColor)
         {
             int flipped = 1;
-            for (int i = 2; i <= 6; i++)
+            for (int i = 2; i <= 7; i++)
             {
                 if (CheckIfTileExist(column, line, xMove * i, yMove * i))
                 {
-                    int tileValue = board[column + xMove, line + yMove];
-                    //if tile is empty we can place our disc here
+                    int tileValue = board[column + xMove * i, line + yMove * i];
+                    //if tile is empty it's not possible to place my disc
                     if (tileValue == -1)
                     {
-                        flipCoinInDirection(column, line, xMove, yMove, column + xMove, column + yMove, myColor);
-                        return flipped;
+                        return 0;
                     }
-                    //if tile has already a disc with my color i can't place it
+                    //if tile has already a disc with my color the move is legal
                     else if (tileValue == myColor)
                     {
-                        return 0;
+                        flipCoinInDirection(column, line, xMove, yMove, column + xMove * i, line + yMove * i, myColor);
+                        return flipped;
                     }
                     //if tile has already a disc with the color of my opponent i can maybe place my disc later
                     else if (tileValue == 1 - myColor)
@@ -231,10 +241,10 @@ namespace IPlayable
         {
             int currentColumn = column;
             int currentLine = line;
-            while(currentColumn <= endColumn && currentLine <= endLine)
+            while (currentColumn != endColumn || currentLine != endLine)
             {
-                board[currentColumn,currentLine] = myColor;
-                currentColumn  = currentColumn + xMove;
+                board[currentColumn, currentLine] = myColor;
+                currentColumn = currentColumn + xMove;
                 currentLine = currentLine + yMove;
             }
         }
