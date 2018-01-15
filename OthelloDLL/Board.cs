@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IPlayable;
 using OthelloDLL;
+using OthelloIACastellaRieben;
 
 namespace IPlayable
 {
@@ -17,6 +18,13 @@ namespace IPlayable
         public Board()
         {
             initGame();
+        }
+
+        public Board(int[,] board)
+        {
+            this.board = (int[,])board.Clone();
+            playerWhite = new Player("White", 0);
+            playerBlack = new Player("Black", 1);
         }
 
         public void initGame()
@@ -58,17 +66,9 @@ namespace IPlayable
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             Tuple<int, int> play = new Tuple<int, int>(-1, -1);
-            for (int i = 0; i <= 7; i++)
-            {
-                for (int j = 0; j <= 7; j++)
-                {
-                    if (IsPlayable(i, j, false))
-                    {
-                        return new Tuple<int, int>(i, j);
-                    }
-                }
-            }
-            return play;
+            TreeNode root = new TreeNode(game,null);
+            AI ai = new AI();
+            return ai.alphabeta2(root, level, 1, int.MaxValue, whiteTurn).Item2;
         }
 
         public int GetWhiteScore()
@@ -161,6 +161,7 @@ namespace IPlayable
             }
             return vulnerableNeighbour;
         }
+
         private bool CheckDirection(int column, int line, int xMove, int yMove, int myColor)
         {
             //check the direction | maximal distance = 6
@@ -247,6 +248,14 @@ namespace IPlayable
                 currentColumn = currentColumn + xMove;
                 currentLine = currentLine + yMove;
             }
+        }
+        public int[,] FakePlayMove(int column, int line, bool whiteTurn)
+        {
+            int[,] oldBoard =GetBoard();
+            PlayMove(column, line, whiteTurn);
+            int[,] newBoard = GetBoard();
+            board = oldBoard;
+            return newBoard;
         }
     }
 }
