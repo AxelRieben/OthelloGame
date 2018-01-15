@@ -12,6 +12,7 @@ namespace Othello
     {
         private T value;
         private TreeNode<T> parent;
+        private int[,] board;
 
         /// <summary>
         /// Evaluation function
@@ -143,9 +144,19 @@ namespace Othello
         /// Returns the applicable operators
         /// </summary>
         /// <returns>List of operators</returns>
-        public List<TreeNode<T>> Ops()
+        public List<Tuple<int, int>> Ops()
         {
-            //TODO
+            List<Tuple<int, int>> list = new List<Tuple<int, int>>();
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    if (IsPlayable(i, j, false))
+                    {
+                        list.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
             return null;
         }
 
