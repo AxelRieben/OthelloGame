@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IPlayable;
-using OthelloDLL;
 using OthelloIACastellaRieben;
 
-namespace IPlayable
+namespace OthelloIACastellaRieben
 {
-    public class Board : IPlayable
+    public class Board : IPlayable.IPlayable
     {
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
+        private AI ai;
 
         public Board()
         {
+            ai = new AI(this);
             initGame();
         }
 
@@ -65,9 +66,8 @@ namespace IPlayable
 
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
-            Tuple<int, int> play = new Tuple<int, int>(-1, -1);
-            TreeNode root = new TreeNode(game,null);
-            AI ai = new AI();
+            TreeNode root = new TreeNode(game, null);
+            AI ai = new AI(this);
             return ai.alphabeta2(root, level, 1, int.MaxValue, whiteTurn).Item2;
         }
 
@@ -137,6 +137,7 @@ namespace IPlayable
         {
             return (column + xMove <= 7 && line + yMove <= 7 && column + xMove >= 0 && line + yMove >= 0);
         }
+
         private List<Tuple<int, int>> getDirection(int column, int line, int opponentColor)
         {
             List<Tuple<int, int>> vulnerableNeighbour = new List<Tuple<int, int>>();
@@ -199,6 +200,7 @@ namespace IPlayable
             //if we tried every tile and we couldn't place our disc.
             return false;
         }
+
         private int FlipDirection(int column, int line, int xMove, int yMove, int myColor)
         {
             int flipped = 1;
@@ -249,6 +251,7 @@ namespace IPlayable
                 currentLine = currentLine + yMove;
             }
         }
+
         public int[,] FakePlayMove(int column, int line, bool whiteTurn)
         {
             int[,] oldBoard =GetBoard();

@@ -70,7 +70,7 @@ namespace OthelloIACastellaRieben
             return (int)Math.Ceiling(result);
         }
 
-        private int getValue(bool white,int[,] tileWeightArray)
+        private int getValue(bool white, int[,] tileWeightArray)
         {
             int count = 0;
             int myColor = white ? 0 : 1;
