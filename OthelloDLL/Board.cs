@@ -26,6 +26,20 @@ namespace OthelloIACastellaRieben
             this.board = (int[,])board.Clone();
             playerWhite = new Player("White", 0);
             playerBlack = new Player("Black", 1);
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    if (board[i, j] == 0)
+                    {
+                        playerWhite.Score++;
+                    }
+                    else if ( board[i, j] == 1)
+                    {
+                        playerBlack.Score++;
+                    }
+                }
+            }
         }
 
         public void initGame()
@@ -127,6 +141,16 @@ namespace OthelloIACastellaRieben
                 }
                 else
                 {
+                    if (isWhite)
+                    {
+                        playerWhite.Score = playerWhite.Score + nbTilesFliped + 1;
+                        playerBlack.Score = playerBlack.Score - nbTilesFliped;
+                    }
+                    else
+                    {
+                        playerBlack.Score = playerBlack.Score + nbTilesFliped + 1;
+                        playerWhite.Score = playerWhite.Score - nbTilesFliped;
+                    }
                     return true;
                 }
 

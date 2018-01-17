@@ -40,8 +40,8 @@ namespace OthelloIACastellaRieben
                                                      { 40,-10,  0,  0,  0,  0,-10, 40}
             };
 
-            int whiteScore = GetScore(true);
-            int blackScore = GetScore(false);
+            int whiteScore = board.GetWhiteScore();
+            int blackScore = board.GetBlackScore();
 
             int whitePossibilities = Ops(true).Count;
             int blackPossibilites = Ops(false).Count;

@@ -22,7 +22,7 @@ namespace OthelloIACastellaRieben
         {
             this.name = name;
             this.color = color;
-            score = 0;
+            score = 2;
             currentTime = TOTAL_TIME;
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
