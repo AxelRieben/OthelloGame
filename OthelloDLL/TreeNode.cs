@@ -94,7 +94,7 @@ namespace OthelloIACastellaRieben
             int count = 0;
             for (int i = 0; i <= 7; i++)
             {
-                for (int j = 0; i <= 7; j++)
+                for (int j = 0; j <= 7; j++)
                 {
                     if (board.GetBoard()[i, j] == myColor)
                     {

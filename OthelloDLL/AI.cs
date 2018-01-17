@@ -30,7 +30,7 @@ namespace OthelloIACastellaRieben
             // minOrMax = -1 : minimize
             if (depth == 0 || root.Final(whiteTurn))
             {
-                return new Tuple<int, Tuple<int, int>>(root.Eval(), null);
+                return new Tuple<int, Tuple<int, int>>(root.Eval(), new Tuple<int, int>(-1,-1));
             }
 
             int optVal = minOrMax * (-int.MaxValue);
@@ -38,7 +38,9 @@ namespace OthelloIACastellaRieben
 
             foreach (Tuple<int, int> op in root.Ops(whiteTurn))
             {
+                
                 TreeNode newNode = root.Apply(op, whiteTurn);
+                Console.WriteLine(""+newNode.ToString());
                 Tuple<int, Tuple<int, int>> newAlpha = alphabeta2(newNode, depth - 1, -minOrMax, optVal, !whiteTurn);
 
                 if (newAlpha.Item1 * minOrMax > optVal * minOrMax)
@@ -52,7 +54,7 @@ namespace OthelloIACastellaRieben
                     }
                 }
             }
-
+            
             return new Tuple<int, Tuple<int, int>>(optVal, optOp);
         }
     }
