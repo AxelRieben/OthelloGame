@@ -30,6 +30,7 @@ namespace OthelloIACastellaRieben
             double mobility;
             double tileWeight;
 
+            //this array indicate
             int[,] tileWeightArray = new int[8, 8]{ { 40,-10,  0,  0,  0,  0,-10, 40},
                                                     {-10,-20,  0,  0,  0,  0,-20,-10},
                                                     {  0,  0,  0,  0,  0,  0,  0,  0},
@@ -48,7 +49,7 @@ namespace OthelloIACastellaRieben
 
             int whiteValue = getValue(true,tileWeightArray);
             int blackValue = getValue(false,tileWeightArray);
-
+            //evaluate each parameters and return a value between -100 and 100  
             coinDiff = 100 * (whiteScore - blackScore) / (whiteScore + blackScore);
             if (whitePossibilities + blackPossibilites != 0)
             {
@@ -66,6 +67,7 @@ namespace OthelloIACastellaRieben
             {
                 tileWeight = 0;
             }
+            //weight for each parameters. weight may be changed for better result
             double result = (coinDiff * 2 + mobility * 4 + tileWeight * 20);
             return (int)Math.Ceiling(result);
         }
@@ -74,6 +76,7 @@ namespace OthelloIACastellaRieben
         {
             int count = 0;
             int myColor = white ? 0 : 1;
+            //compare each tiles with it's weight defined in our weight array
             for (int i = 0; i <= 7; i++)
             {
                 for (int j = 0; j <= 7; j++)
@@ -88,29 +91,13 @@ namespace OthelloIACastellaRieben
 
         }
 
-        private int GetScore(bool white)
-        {
-            int myColor = white ? 0 : 1;
-            int count = 0;
-            for (int i = 0; i <= 7; i++)
-            {
-                for (int j = 0; j <= 7; j++)
-                {
-                    if (board.GetBoard()[i, j] == myColor)
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
         /// <summary>
         /// Is the game in final state
         /// </summary>
         /// <returns>True if the game is over</returns>
         public bool Final(bool whiteTurn)
         {
+            //check if we have possibilities to play
             if (Ops(whiteTurn).Count == 0)
             {
                 return true;

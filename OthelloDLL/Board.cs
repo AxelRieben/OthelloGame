@@ -26,6 +26,7 @@ namespace OthelloIACastellaRieben
             this.board = (int[,])board.Clone();
             playerWhite = new Player("White", 0);
             playerBlack = new Player("Black", 1);
+            //set score for both player from board
             for (int i = 0; i <= 7; i++)
             {
                 for (int j = 0; j <= 7; j++)
@@ -44,6 +45,7 @@ namespace OthelloIACastellaRieben
 
         public void initGame()
         {
+            //set an empty board
             board = new int[8, 8];
 
             for (int i = 0; i < board.GetLength(0); i++)
@@ -53,12 +55,13 @@ namespace OthelloIACastellaRieben
                     board[i, j] = -1;
                 }
             }
-
+            //add starting disc
             board[3, 3] = 0;
             board[4, 3] = 1;
             board[3, 4] = 1;
             board[4, 4] = 0;
 
+            //create 2 player
             playerWhite = new Player("White", 0);
             playerBlack = new Player("Black", 1);
         }
@@ -82,6 +85,7 @@ namespace OthelloIACastellaRieben
         {
             TreeNode root = new TreeNode(game, null);
             AI ai = new AI(this);
+            //get the best move from our aplphabeta function
             return ai.alphabeta2(root, level, 1, int.MaxValue, whiteTurn).Item2;
         }
 
@@ -135,12 +139,14 @@ namespace OthelloIACastellaRieben
                 {
                     nbTilesFliped += FlipDirection(column, line, a.Item1, a.Item2, myColor);
                 }
+                //if our move do not flip any tile , move is not legal
                 if (nbTilesFliped == 0)
                 {
                     return false;
                 }
                 else
                 {
+                    //update score
                     if (isWhite)
                     {
                         playerWhite.Score = playerWhite.Score + nbTilesFliped + 1;
@@ -177,6 +183,7 @@ namespace OthelloIACastellaRieben
                             //check if there is an opponent disc there
                             if (board[column + i, line + j] == opponentColor)
                             {
+                                // if theres is , we add the tile to the vulnerable neighbour list
                                 Tuple<int, int> possibilities = new Tuple<int, int>(i, j);
                                 vulnerableNeighbour.Add(possibilities);
                             }
@@ -268,6 +275,7 @@ namespace OthelloIACastellaRieben
         {
             int currentColumn = column;
             int currentLine = line;
+            // we flip every coin from start tile to end tile in direction(xMove,yMove)
             while (currentColumn != endColumn || currentLine != endLine)
             {
                 board[currentColumn, currentLine] = myColor;
@@ -278,6 +286,7 @@ namespace OthelloIACastellaRieben
 
         public int[,] FakePlayMove(int column, int line, bool whiteTurn)
         {
+            //return the board the play would get without chnanging it.
             int[,] oldBoard =GetBoard();
             PlayMove(column, line, whiteTurn);
             int[,] newBoard = GetBoard();
