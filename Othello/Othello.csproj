@@ -54,6 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Tile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,8 +96,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="doge.png" />
-    <Resource Include="grumpy.png" />
+    <Resource Include="images\doge.png" />
+    <Resource Include="images\grumpy.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OthelloDLL\OthelloIA.csproj">
