@@ -11,13 +11,15 @@ namespace Othello
     {
         MainWindow mainWindow;
 
-        int owner; //-1 = no one, 0 = Doge, 1 = Grumpy
+        enum TileState { empty = -1, Player1 = 0, Player2 = 1, Playable = 2 };
+
+        //int owner; //-1 = no one, 0 = Doge, 1 = Grumpy
         int posX;
         int posY;
+        TileState state;
+        
 
-        bool isPlayable;
-
-        public Tile(MainWindow parent, int x, int y)
+        public Tile(MainWindow parent, int x, int y, int state)
         {
             this.posX = x;
             this.posY = y;
@@ -26,27 +28,15 @@ namespace Othello
             Grid.SetColumn(this, x);
             Grid.SetRow(this, y);
 
-            owner = -1;
+            this.state = (TileState)state;
         }
 
-        public int Owner
+        public int State
         {
-            get { return owner; }
+            get { return (int)state; }
             set
             {
-                owner = value;
-            }
-        }
-
-        public bool IsPlayable
-        {
-            get
-            {
-                return isPlayable;
-            }
-            set
-            {
-                isPlayable = value;
+                state = (TileState)value;
             }
         }
     }

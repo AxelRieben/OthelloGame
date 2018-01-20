@@ -30,6 +30,8 @@ namespace OthelloIACastellaRieben
             double mobility;
             double tileWeight;
 
+            double result;
+
             //this array indicate
             int[,] tileWeightArray = new int[8, 8]{ { 40,-10,  0,  0,  0,  0,-10, 40},
                                                     {-10,-20,  0,  0,  0,  0,-20,-10},
@@ -68,7 +70,16 @@ namespace OthelloIACastellaRieben
                 tileWeight = 0;
             }
             //weight for each parameters. weight may be changed for better result
-            double result = (coinDiff * 2 + mobility * 4 + tileWeight * 20);
+            //we try to aim for best tile until late game where we try to have more disc than the opponentlu1k
+            if(blackScore + whiteScore > 55)
+            {
+                result = (coinDiff * 20 + mobility * 4 + tileWeight * 2);
+            }
+            else
+            {
+                result = (coinDiff * 2 + mobility * 4 + tileWeight * 20);
+            }
+           
             return (int)Math.Ceiling(result);
         }
 

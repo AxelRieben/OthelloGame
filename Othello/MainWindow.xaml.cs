@@ -18,14 +18,17 @@ namespace Othello
     public partial class MainWindow : Window
     {
         private Tile[,] tiles;
+        private Board board;
 
         public MainWindow()
         {
             InitializeComponent();
-            drawGrid();
+            board = new Board();
+            initGrid();
+            updateGridValue(board);
         }
 
-        private void drawGrid()
+        private void initGrid()
         {
             tiles = new Tile[Constants.GRID_SIZE, Constants.GRID_SIZE];
 
@@ -33,43 +36,27 @@ namespace Othello
             {
                 for (int x = 0; x < Constants.GRID_SIZE; x++)
                 {
-                    Tile tile = new Tile(this, x, y);
+                    Tile tile = new Tile(this, x, y, -1);
                     tiles[x, y] = tile;
                     GridBoard.Children.Add(tile);
                 }
             }
-
-            //double squareHeight = canvas.Height / 8;
-            //double squareWidth = canvas.Width / 8;
-
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    for (int j = 0; j < 8; j++)
-            //    {
-            //        Rectangle rect = new Rectangle
-            //        {
-            //            Stroke = Brushes.LightBlue,
-            //            StrokeThickness = 1
-            //        };
-
-            //        rect.Height = squareHeight;
-            //        rect.Width = squareWidth;
-            //        Canvas.SetTop(rect, 0 + i * squareHeight);
-            //        Canvas.SetLeft(rect, 0 + j * squareWidth);
-            //        canvas.Children.Add(rect);
-            //        /*enum background texture(0:claire 1:foncé)?*/
-            //    }
-            //}
-            //Rectangle borderRect = new Rectangle
-            //{
-            //    Stroke = Brushes.Black,
-            //    StrokeThickness = 1
-            //};
-            //borderRect.Height = canvas.Height;
-            //borderRect.Width = canvas.Width;
-            //Canvas.SetTop(borderRect, 0);
-            //Canvas.SetLeft(borderRect, 0);
-            //canvas.Children.Add(borderRect);
+        }
+        private void updateGridValue(Board board)
+        {
+            int tileValue = 2;
+            int[,] gridBoard = board.GetBoard();
+            for (int y = 0; y < Constants.GRID_SIZE; y++)
+            {
+                for (int x = 0; x < Constants.GRID_SIZE; x++)
+                {
+                    if (!board.IsPlayable(x,y,board.GetTurn()))
+                    {
+                        tileValue = gridBoard[x, y];
+                    }
+                    tiles[x, y].State = tileValue;
+                }
+            }
         }
 
         private void ButtonNewGame(object sender, RoutedEventArgs e)
