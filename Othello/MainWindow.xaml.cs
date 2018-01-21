@@ -25,7 +25,7 @@ namespace Othello
             InitializeComponent();
             board = new Board();
             initGrid();
-            updateGridValue(board);
+            UpdateGridValue();
         }
 
         private void initGrid()
@@ -36,14 +36,14 @@ namespace Othello
             {
                 for (int x = 0; x < Constants.GRID_SIZE; x++)
                 {
-                    Tile tile = new Tile(board, x, y, -1);
+                    Tile tile = new Tile(this, board, x, y, -1);
                     tiles[x, y] = tile;
                     GridBoard.Children.Add(tile);
                 }
             }
         }
 
-        private void updateGridValue(Board board)
+        public void UpdateGridValue()
         {
             int tileValue = -1;
             int[,] gridBoard = board.GetBoard();
@@ -67,7 +67,8 @@ namespace Othello
 
         private void ButtonNewGame(object sender, RoutedEventArgs e)
         {
-            initGrid();
+            board.initGame();
+            UpdateGridValue();
         }
 
         private void ButtonSave(object sender, RoutedEventArgs e)

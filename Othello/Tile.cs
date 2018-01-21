@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +12,7 @@ namespace Othello
 {
     class Tile : Button
     {
+        private MainWindow parent;
         private Board board;
 
         private int posX;
@@ -19,11 +21,12 @@ namespace Othello
 
         private Brush[] BRUSHES = { Brushes.Transparent, Constants.GetBrush(Constants.IMG_DOGE), Constants.GetBrush(Constants.IMG_GRUMPY) };
 
-        public Tile(Board board, int x, int y, int state)
+        public Tile(MainWindow parent, Board board, int x, int y, int state)
         {
             this.posX = x;
             this.posY = y;
             this.board = board;
+            this.parent = parent;
 
             Grid.SetColumn(this, x);
             Grid.SetRow(this, y);
@@ -43,10 +46,18 @@ namespace Othello
 
         protected override void OnClick()
         {
-            if (board.IsPlayable(posX, posY, board.GetTurn()))
+            bool isWhite = board.GetTurn();
+            //MessageBox.Show(RuntimeHelpers.GetHashCode(board).ToString());
+
+            if (board.IsPlayable(posX, posY, isWhite))
             {
-                board.PlayMove(posX, posY, board.GetTurn());
-                MessageBox.Show("Played");
+                if(board.PlayMove(posX, posY, isWhite)){
+                    parent.UpdateGridValue();
+                }
+                else
+                {
+                    MessageBox.Show("Illegal movment");
+                }
             }
         }
     }

@@ -78,6 +78,7 @@ namespace Othello
         {
             return playerWhite.Score;
         }
+
         public bool GetTurn()
         {
             return isWhite;
@@ -90,8 +91,15 @@ namespace Othello
 
         public bool PlayMove(int column, int line, bool isWhite)
         {
-            isWhite = !isWhite;
-            return IsPlayableFlipOption(column, line, isWhite, true);
+            if(IsPlayableFlipOption(column, line, isWhite, true))
+            {
+                this.isWhite = !this.isWhite;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool IsPlayableFlipOption(int column, int line, bool isWhite, bool flipCatchedTile)
