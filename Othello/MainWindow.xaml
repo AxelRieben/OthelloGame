@@ -8,30 +8,46 @@
         Width="1080" 
         Height="720" 
         MinWidth="800"
-        MinHeight="600">
+        MinHeight="600"
+        Background="Black">
+
+    <Window.Resources>
+        <Style x:Key="TextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+
+    </Window.Resources>
 
     <DockPanel LastChildFill="True">
         <StackPanel x:Name="PanelTitle" Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" FontSize="36" FontFamily="Gill Sans" HorizontalAlignment="Center">Othello Doge VS Grumpy Cat</TextBlock>
+            <TextBlock Margin="10" FontSize="36" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Othello Doge VS Grumpy Cat</TextBlock>
         </StackPanel>
 
         <StackPanel x:Name="PanelPlayer1" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" FontSize="20" HorizontalAlignment="Center">Grumpy Cat</TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Grumpy Cat</TextBlock>
             <Image Source="images/grumpy.png" Width="100" Height="100" Stretch="UniformToFill"/>
-            <Button Margin="10" MinWidth="100">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelPlayer2" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" FontSize="20" HorizontalAlignment="Center">Doge</TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Doge</TextBlock>
             <Image Source="images/doge.png" Width="100" Height="100" Stretch="UniformToFill"/>
-            <Button Margin="10" MinWidth="100">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelControl" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Margin="10" MinWidth="100" Click="ButtonNewGame">New Game</Button>
-            <Button Margin="10" MinWidth="100" Click="ButtonSave">Save</Button>
-            <Button Margin="10" MinWidth="100" Click="ButtonLoad">Load</Button>
-            <TextBlock Margin="10" FontSize="14" TextAlignment="Right" HorizontalAlignment="Right">Axel Rieben and Killian Castella</TextBlock>
+            <Button Style="{StaticResource ButtonStyle}"  Click="ButtonNewGame">New Game</Button>
+            <Button Style="{StaticResource ButtonStyle}" Click="ButtonSave">Save</Button>
+            <Button Style="{StaticResource ButtonStyle}" Click="ButtonLoad">Load</Button>
         </StackPanel>
 
         <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" Background="Pink">
