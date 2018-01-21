@@ -10,9 +10,14 @@ namespace OthelloIACastellaRieben
 {
     public class Board : IPlayable.IPlayable
     {
+        //Board that represent the game
         private int[,] board;
+
+        //The two players
         private Player playerBlack;
         private Player playerWhite;
+
+        //Our implementation of the alpha-beta algorithm
         private AI ai;
 
         public Board()
@@ -23,9 +28,11 @@ namespace OthelloIACastellaRieben
 
         public Board(int[,] board)
         {
+            //Clone a new board
             this.board = (int[,])board.Clone();
             playerWhite = new Player("White", 0);
             playerBlack = new Player("Black", 1);
+
             //set score for both player from board
             for (int i = 0; i <= 7; i++)
             {
@@ -35,7 +42,7 @@ namespace OthelloIACastellaRieben
                     {
                         playerWhite.Score++;
                     }
-                    else if ( board[i, j] == 1)
+                    else if (board[i, j] == 1)
                     {
                         playerBlack.Score++;
                     }
@@ -55,6 +62,7 @@ namespace OthelloIACastellaRieben
                     board[i, j] = -1;
                 }
             }
+
             //add starting disc
             board[3, 3] = 0;
             board[4, 3] = 1;
@@ -287,7 +295,7 @@ namespace OthelloIACastellaRieben
         public int[,] FakePlayMove(int column, int line, bool whiteTurn)
         {
             //return the board the play would get without chnanging it.
-            int[,] oldBoard =GetBoard();
+            int[,] oldBoard = GetBoard();
             PlayMove(column, line, whiteTurn);
             int[,] newBoard = GetBoard();
             board = oldBoard;

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OthelloIACastellaRieben
 {
+    /// <summary>
+    /// Class that represent a game state (a node in the tree)
+    /// </summary>
     class TreeNode
     {
         private int value;
@@ -32,7 +35,7 @@ namespace OthelloIACastellaRieben
 
             double result;
 
-            //this array indicate
+            //this array indicate the weight for each tile of the board
             int[,] tileWeightArray = new int[8, 8]{ { 40,-10,  0,  0,  0,  0,-10, 40},
                                                     {-10,-20,  0,  0,  0,  0,-20,-10},
                                                     {  0,  0,  0,  0,  0,  0,  0,  0},
@@ -49,8 +52,9 @@ namespace OthelloIACastellaRieben
             int whitePossibilities = Ops(true).Count;
             int blackPossibilites = Ops(false).Count;
 
-            int whiteValue = getValue(true,tileWeightArray);
-            int blackValue = getValue(false,tileWeightArray);
+            int whiteValue = getValue(true, tileWeightArray);
+            int blackValue = getValue(false, tileWeightArray);
+
             //evaluate each parameters and return a value between -100 and 100  
             coinDiff = 100 * (whiteScore - blackScore) / (whiteScore + blackScore);
             if (whitePossibilities + blackPossibilites != 0)
@@ -69,9 +73,10 @@ namespace OthelloIACastellaRieben
             {
                 tileWeight = 0;
             }
+
             //weight for each parameters. weight may be changed for better result
-            //we try to aim for best tile until late game where we try to have more disc than the opponentlu1k
-            if(blackScore + whiteScore > 55)
+            //we try to aim for best tile until late game where we try to have more disc than the opponent
+            if (blackScore + whiteScore > 55)
             {
                 result = (coinDiff * 20 + mobility * 4 + tileWeight * 2);
             }
@@ -79,7 +84,7 @@ namespace OthelloIACastellaRieben
             {
                 result = (coinDiff * 2 + mobility * 4 + tileWeight * 20);
             }
-           
+
             return (int)Math.Ceiling(result);
         }
 
@@ -87,6 +92,7 @@ namespace OthelloIACastellaRieben
         {
             int count = 0;
             int myColor = white ? 0 : 1;
+
             //compare each tiles with it's weight defined in our weight array
             for (int i = 0; i <= 7; i++)
             {
@@ -98,12 +104,12 @@ namespace OthelloIACastellaRieben
                     }
                 }
             }
-            return count;
 
+            return count;
         }
 
         /// <summary>
-        /// Is the game in final state
+        /// Is the game is in final state
         /// </summary>
         /// <returns>True if the game is over</returns>
         public bool Final(bool whiteTurn)

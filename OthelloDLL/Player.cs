@@ -7,6 +7,9 @@ using System.Timers;
 
 namespace OthelloIACastellaRieben
 {
+    /// <summary>
+    /// Class that represent a player (white or black) and store its score, timer, name and color
+    /// </summary>
     class Player
     {
         private int color;
@@ -17,7 +20,6 @@ namespace OthelloIACastellaRieben
 
         private const int TOTAL_TIME = 1800; //30 minutes
 
-
         public Player(String name, int color)
         {
             this.name = name;
@@ -27,7 +29,6 @@ namespace OthelloIACastellaRieben
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
-
 
         public int CurrentTime
         {
