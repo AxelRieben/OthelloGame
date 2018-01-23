@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Timers;
 
 namespace Othello
 {
-    class Player
+    public class Player : INotifyPropertyChanged
     {
         private int color;
         private String name;
@@ -17,6 +18,7 @@ namespace Othello
 
         private const int TOTAL_TIME = 1800; //30 minutes
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Player(String name, int color)
         {
@@ -39,6 +41,7 @@ namespace Othello
             set
             {
                 currentTime = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
             }
         }
 
@@ -93,6 +96,7 @@ namespace Othello
             }
         }
 
+        
         public void StartTimer()
         {
             timer.Start();

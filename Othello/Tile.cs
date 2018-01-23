@@ -30,6 +30,7 @@ namespace Othello
 
             Grid.SetColumn(this, x);
             Grid.SetRow(this, y);
+            BorderBrush = Brushes.White;
 
             this.tileState = state;
         }

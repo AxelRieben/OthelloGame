@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Othello
 {
     public class Board
-    {
+    { 
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
@@ -38,6 +38,14 @@ namespace Othello
                         playerBlack.Score++;
                     }
                 }
+            }
+        }
+
+        public Player PlayerBlack
+        {
+            get
+            {
+                return playerBlack;
             }
         }
 

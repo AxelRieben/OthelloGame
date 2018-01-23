@@ -34,14 +34,26 @@
             <TextBlock Margin="10" FontSize="36" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Othello Doge VS Grumpy Cat</TextBlock>
         </StackPanel>
 
-        <StackPanel x:Name="PanelPlayer1" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PanelBlack" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Grumpy Cat</TextBlock>
-            <Image Source="images/grumpy.png" Width="100" Height="100" Stretch="UniformToFill"/>
+            <Image Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime}"></TextBlock>
+
+            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Center">
+                <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
+                <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Score}"></TextBlock>
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel x:Name="PanelPlayer2" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PanelWhite" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Doge</TextBlock>
-            <Image Source="images/doge.png" Width="100" Height="100" Stretch="UniformToFill"/>
+            <Image Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime}"></TextBlock>
+
+            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Center">
+                <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
+                <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Score}"></TextBlock>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel x:Name="PanelControl" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -50,7 +62,7 @@
             <Button Style="{StaticResource ButtonStyle}" Click="ButtonLoad">Load</Button>
         </StackPanel>
 
-        <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" Background="Pink">
+        <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="*" />
                 <ColumnDefinition  Width="*" />
