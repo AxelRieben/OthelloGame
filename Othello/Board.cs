@@ -12,10 +12,14 @@ namespace Othello
         private Player playerBlack;
         private Player playerWhite;
         //starting with black
-        bool isWhite = false;
+        bool isWhite;
 
         public Board()
         {
+            playerWhite = new Player("White", 0);
+            playerBlack = new Player("Black", 1);
+            board = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
+            isWhite = false;
             initGame();
         }
 
@@ -49,11 +53,17 @@ namespace Othello
             }
         }
 
+        public Player PlayerWhite
+        {
+            get
+            {
+                return playerWhite;
+            }
+        }
+
         public void initGame()
         {
             //set an empty board
-            board = new int[8, 8];
-
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int j = 0; j < board.GetLength(1); j++)
@@ -61,6 +71,7 @@ namespace Othello
                     board[i, j] = -1;
                 }
             }
+
             //add starting disc
             board[3, 3] = 0;
             board[4, 3] = 1;
@@ -68,8 +79,9 @@ namespace Othello
             board[4, 4] = 0;
 
             //create 2 player
-            playerWhite = new Player("White", 0);
-            playerBlack = new Player("Black", 1);
+            playerWhite.Reset();
+            playerBlack.Reset();
+            playerBlack.StartTimer();
         }
 
         public int GetBlackScore()
@@ -101,13 +113,29 @@ namespace Othello
         {
             if(IsPlayableFlipOption(column, line, isWhite, true))
             {
-                this.isWhite = !this.isWhite;
+                switchTurn();
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        private void switchTurn()
+        {
+            if(isWhite)
+            {
+                playerWhite.StopTimer();
+                playerBlack.StartTimer();
+            }
+            else
+            {
+                playerBlack.StopTimer();
+                playerWhite.StartTimer();
+            }
+
+            this.isWhite = !this.isWhite;
         }
 
         private bool IsPlayableFlipOption(int column, int line, bool isWhite, bool flipCatchedTile)
@@ -281,6 +309,7 @@ namespace Othello
         {
             int currentColumn = column;
             int currentLine = line;
+
             // we flip every coin from start tile to end tile in direction(xMove,yMove)
             while (currentColumn != endColumn || currentLine != endLine)
             {

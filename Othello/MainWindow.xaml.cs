@@ -26,6 +26,7 @@ namespace Othello
             board = new Board();
             initGrid();
             UpdateGridValue();
+            this.DataContext = board;
         }
 
         private void initGrid()

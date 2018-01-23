@@ -20,12 +20,25 @@ namespace Othello
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected void Notify(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public Player(String name, int color)
         {
             this.name = name;
             this.color = color;
-            score = 2;
-            currentTime = TOTAL_TIME;
+            Reset();
+        }
+
+        public void Reset()
+        {
+            Score = 2;
+            CurrentTime = TOTAL_TIME;
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
@@ -41,7 +54,7 @@ namespace Othello
             set
             {
                 currentTime = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
+                Notify("CurrentTime");
             }
         }
 
@@ -55,6 +68,7 @@ namespace Othello
             set
             {
                 score = value;
+                Notify("Score");
             }
         }
 
@@ -68,6 +82,7 @@ namespace Othello
             set
             {
                 name = value;
+                Notify("Name");
             }
         }
 
@@ -81,6 +96,7 @@ namespace Othello
             set
             {
                 color = value;
+                Notify("Color");
             }
         }
 
