@@ -20,11 +20,26 @@
 
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="FontFamily" Value="Impact"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="MinWidth" Value="124" />
             <Setter Property="Margin" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5,5,5,5" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="1" >
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
     </Window.Resources>
@@ -37,9 +52,9 @@
         <StackPanel x:Name="PanelBlack" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Grumpy Cat</TextBlock>
             <Image Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
-            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime}"></TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
-            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Center">
+            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Score}"></TextBlock>
             </StackPanel>
@@ -48,9 +63,9 @@
         <StackPanel x:Name="PanelWhite" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Doge</TextBlock>
             <Image Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
-            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime}"></TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
-            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Center">
+            <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Score}"></TextBlock>
             </StackPanel>

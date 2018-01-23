@@ -13,10 +13,11 @@ namespace Othello
         private int color;
         private String name;
         private int score;
-        private int currentTime;
+        private TimeSpan currentTime;
         private Timer timer;
 
-        private const int TOTAL_TIME = 1800; //30 minutes
+        private const int TOTAL_TIME = 30; //30 minutes
+        private TimeSpan interval = new TimeSpan(0, 0, 1);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,13 +39,13 @@ namespace Othello
         public void Reset()
         {
             Score = 2;
-            CurrentTime = TOTAL_TIME;
+            CurrentTime = new TimeSpan(0, TOTAL_TIME, 0);
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
 
 
-        public int CurrentTime
+        public TimeSpan CurrentTime
         {
             get
             {
@@ -102,9 +103,9 @@ namespace Othello
 
         private void decrementTime(Object source, ElapsedEventArgs e)
         {
-            if (currentTime >= 1)
+            if (currentTime.TotalSeconds >= 1)
             {
-                currentTime--;
+                CurrentTime = currentTime.Subtract(interval);
             }
             else
             {
