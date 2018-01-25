@@ -35,5 +35,13 @@ namespace Othello
 
             return brush;
         }
+
+        public static ImageBrush GetTansparentBrush()
+        {
+            ImageBrush brush = new ImageBrush();
+            brush.Opacity = 0;
+
+            return brush;
+        }
     }
 }

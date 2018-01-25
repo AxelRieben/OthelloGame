@@ -31,6 +31,7 @@ namespace Othello
 
         private void initGrid()
         {
+            Style style = (Style)FindResource("GridButton");
             tiles = new Tile[Constants.GRID_SIZE, Constants.GRID_SIZE];
 
             for (int y = 0; y < Constants.GRID_SIZE; y++)
@@ -39,6 +40,7 @@ namespace Othello
                 {
                     Tile tile = new Tile(this, board, x, y, -1);
                     tiles[x, y] = tile;
+                    tile.Style = style;
                     GridBoard.Children.Add(tile);
                 }
             }
@@ -46,23 +48,30 @@ namespace Othello
 
         public void UpdateGridValue()
         {
-            int tileValue = -1;
             int[,] gridBoard = board.GetBoard();
+            int numPlayableTiles = 0;
 
             for (int y = 0; y < Constants.GRID_SIZE; y++)
             {
                 for (int x = 0; x < Constants.GRID_SIZE; x++)
                 {
-                    if (!board.IsPlayable(x, y, board.GetTurn()))
+                    if (board.IsPlayable(x, y, board.GetTurn()))
                     {
-                        tileValue = gridBoard[x, y];
+                        tiles[x, y].IsPlayable = true;
+                        numPlayableTiles++;
                     }
                     else
                     {
-                        tileValue = -1;
+                        tiles[x, y].IsPlayable = false;
                     }
-                    tiles[x, y].State = tileValue;
+
+                    tiles[x, y].State = gridBoard[x, y];
                 }
+            }
+
+            if(numPlayableTiles == 0)
+            {
+                MessageBox.Show("You can't play, PASS pls :)");
             }
         }
 
