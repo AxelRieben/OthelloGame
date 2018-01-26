@@ -1,31 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Othello
 {
+    [Serializable]
     public class Player : INotifyPropertyChanged
     {
         private int color;
         private String name;
         private int score;
         private TimeSpan currentTime;
-        private Timer timer;
+        [field: NonSerialized] private Timer timer;
 
         private const int TOTAL_TIME = 30; //30 minutes
         private TimeSpan interval = new TimeSpan(0, 0, 1);
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
 
         protected void Notify(string propertyName)
         {
             if (this.PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
@@ -113,7 +110,7 @@ namespace Othello
             }
         }
 
-        
+
         public void StartTimer()
         {
             timer.Start();

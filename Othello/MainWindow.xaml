@@ -95,6 +95,7 @@
             <Button Style="{StaticResource ButtonStyle}"  Click="ButtonNewGame">New Game</Button>
             <Button Style="{StaticResource ButtonStyle}" Click="ButtonSave">Save</Button>
             <Button Style="{StaticResource ButtonStyle}" Click="ButtonLoad">Load</Button>
+            <Button Style="{StaticResource ButtonStyle}" Click="ButtonAbout">About</Button>
         </StackPanel>
 
         <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" >

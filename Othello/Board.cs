@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Othello
 {
+    [Serializable]
     public class Board
-    { 
+    {
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
@@ -43,6 +48,14 @@ namespace Othello
                     }
                 }
             }
+        }
+
+        public Board(Board boardSource)
+        {
+            board = (int[,])boardSource.GetBoard().Clone();
+            playerWhite = boardSource.PlayerWhite;
+            playerBlack = boardSource.PlayerBlack;
+            isWhite = boardSource.GetTurn();
         }
 
         public Player PlayerBlack
@@ -84,6 +97,58 @@ namespace Othello
             playerBlack.StartTimer();
         }
 
+        public bool Save(string filename, ref Board board)
+        {
+            Stream stream = null;
+
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, board);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+            }
+
+            return true;
+        }
+
+        public bool Load(string filename, ref Board board)
+        {
+            Stream stream = null;
+
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                board = (Board)formatter.Deserialize(stream);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+            }
+
+            return true;
+        }
+
         public int GetBlackScore()
         {
             return playerBlack.Score;
@@ -111,7 +176,7 @@ namespace Othello
 
         public bool PlayMove(int column, int line, bool isWhite)
         {
-            if(IsPlayableFlipOption(column, line, isWhite, true))
+            if (IsPlayableFlipOption(column, line, isWhite, true))
             {
                 switchTurn();
                 return true;
@@ -124,7 +189,7 @@ namespace Othello
 
         private void switchTurn()
         {
-            if(isWhite)
+            if (isWhite)
             {
                 playerWhite.StopTimer();
                 playerBlack.StartTimer();

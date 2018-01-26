@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,7 +70,7 @@ namespace Othello
                 }
             }
 
-            if(numPlayableTiles == 0)
+            if (numPlayableTiles == 0)
             {
                 MessageBox.Show("You can't play, PASS pls :)");
             }
@@ -77,16 +78,65 @@ namespace Othello
 
         private void ButtonNewGame(object sender, RoutedEventArgs e)
         {
-            board.initGame();
-            UpdateGridValue();
+            MessageBoxResult result = MessageBox.Show("The current game will be lost, are you sure you want to start a new game ?", "New Game", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.OK)
+            {
+                board.initGame();
+                UpdateGridValue();
+            }
         }
+
 
         private void ButtonSave(object sender, RoutedEventArgs e)
         {
-            //TODO
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Title = "Save the game";
+            saveDialog.FileName = "game";
+            saveDialog.DefaultExt = ".otlo";
+            saveDialog.Filter = "Othello files (*.otlo)|*.otlo";
+            saveDialog.FilterIndex = 2;
+            bool? result = saveDialog.ShowDialog();
+
+            if (result == true && saveDialog.FileName != "")
+            {
+                string filename = saveDialog.FileName;
+                if (board.Save(filename, ref board))
+                {
+                    MessageBox.Show("Game has been saved in " + filename + " !", "Saved", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Game couldn't be saved !", "Sorry", MessageBoxButton.OK);
+                }
+            }
         }
 
         private void ButtonLoad(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Load a game";
+            openDialog.FileName = "game";
+            openDialog.Filter = "Othello files (*.otlo)|*.otlo";
+            openDialog.FilterIndex = 2;
+            bool? result = openDialog.ShowDialog();
+
+            if (result == true && openDialog.FileName != "")
+            {
+                string filename = openDialog.FileName;
+                if (board.Load(filename, ref board))
+                {
+                    UpdateGridValue();
+                    MessageBox.Show("Game has been load !", "Loaded", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Game couldn't be load !", "Sorry", MessageBoxButton.OK);
+
+                }
+            }
+        }
+
+        private void ButtonAbout(object sender, RoutedEventArgs e)
         {
             //TODO
         }
