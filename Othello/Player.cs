@@ -28,9 +28,19 @@ namespace Othello
 
         public Player(String name, int color)
         {
-            this.name = name;
-            this.color = color;
+            Name = name;
+            Color = color;
             Reset();
+        }
+
+        public Player(Player sourcePlayer)
+        {
+            Name = sourcePlayer.Name;
+            Color = sourcePlayer.Color;
+            Score = sourcePlayer.Score;
+            CurrentTime = sourcePlayer.CurrentTime;
+            timer = new Timer(1000);
+            timer.Elapsed += decrementTime;
         }
 
         public void Reset()

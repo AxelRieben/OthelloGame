@@ -76,6 +76,19 @@ namespace Othello
             }
         }
 
+        public void UpdateTilesReference()
+        {
+            int[,] gridBoard = board.GetBoard();
+
+            for (int y = 0; y < Constants.GRID_SIZE; y++)
+            {
+                for (int x = 0; x < Constants.GRID_SIZE; x++)
+                {
+                    tiles[x, y].Board = board;
+                }
+            }
+        }
+
         private void ButtonNewGame(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("The current game will be lost, are you sure you want to start a new game ?", "New Game", MessageBoxButton.OKCancel, MessageBoxImage.Question);
@@ -89,6 +102,8 @@ namespace Othello
 
         private void ButtonSave(object sender, RoutedEventArgs e)
         {
+            board.IsPaused = true;
+
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Title = "Save the game";
             saveDialog.FileName = "game";
@@ -109,13 +124,17 @@ namespace Othello
                     MessageBox.Show("Game couldn't be saved !", "Sorry", MessageBoxButton.OK);
                 }
             }
+
+            board.IsPaused = false;
         }
 
         private void ButtonLoad(object sender, RoutedEventArgs e)
         {
+            board.IsPaused = true;
+
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Title = "Load a game";
-            openDialog.FileName = "game";
+            openDialog.FileName = "game.othlo";
             openDialog.Filter = "Othello files (*.otlo)|*.otlo";
             openDialog.FilterIndex = 2;
             bool? result = openDialog.ShowDialog();
@@ -125,6 +144,8 @@ namespace Othello
                 string filename = openDialog.FileName;
                 if (board.Load(filename, ref board))
                 {
+                    this.DataContext = board;
+                    UpdateTilesReference();
                     UpdateGridValue();
                     MessageBox.Show("Game has been load !", "Loaded", MessageBoxButton.OK);
                 }
@@ -134,6 +155,8 @@ namespace Othello
 
                 }
             }
+
+            board.IsPaused = false;
         }
 
         private void ButtonAbout(object sender, RoutedEventArgs e)

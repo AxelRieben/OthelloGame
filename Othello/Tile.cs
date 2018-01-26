@@ -67,6 +67,18 @@ namespace Othello
             }
         }
 
+        public Board Board
+        {
+            get
+            {
+                return board;
+            }
+            set
+            {
+                board = value;
+            }
+        }
+
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);

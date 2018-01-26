@@ -18,6 +18,7 @@ namespace Othello
         private Player playerWhite;
         //starting with black
         bool isWhite;
+        bool isPaused;
 
         public Board()
         {
@@ -25,6 +26,7 @@ namespace Othello
             playerBlack = new Player("Black", 1);
             board = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
             isWhite = false;
+            isPaused = false;
             initGame();
         }
 
@@ -64,6 +66,10 @@ namespace Othello
             {
                 return playerBlack;
             }
+            set
+            {
+                playerBlack = value;
+            }
         }
 
         public Player PlayerWhite
@@ -71,6 +77,10 @@ namespace Othello
             get
             {
                 return playerWhite;
+            }
+            set
+            {
+                playerWhite = value;
             }
         }
 
@@ -97,6 +107,37 @@ namespace Othello
             playerBlack.StartTimer();
         }
 
+        public bool IsPaused
+        {
+            get { return isPaused; }
+            set
+            {
+                isPaused = value;
+                if (value)
+                {
+                    if (isWhite)
+                    {
+                        playerWhite.StopTimer();
+                    }
+                    else
+                    {
+                        playerBlack.StopTimer();
+                    }
+                }
+                else
+                {
+                    if (isWhite)
+                    {
+                        playerWhite.StartTimer();
+                    }
+                    else
+                    {
+                        playerBlack.StartTimer();
+                    }
+                }
+            }
+        }
+
         public bool Save(string filename, ref Board board)
         {
             Stream stream = null;
@@ -109,7 +150,7 @@ namespace Othello
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show(e.ToString());  //TODO Remove
                 return false;
             }
             finally
@@ -131,11 +172,14 @@ namespace Othello
             {
                 IFormatter formatter = new BinaryFormatter();
                 stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-                board = (Board)formatter.Deserialize(stream);
+                Board serializedBoard = (Board)formatter.Deserialize(stream);
+                board = new Board(serializedBoard);
+                board.PlayerBlack = new Player(serializedBoard.PlayerBlack);
+                board.playerWhite = new Player(serializedBoard.PlayerWhite);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show(e.ToString()); //TODO Remove
                 return false;
             }
             finally
