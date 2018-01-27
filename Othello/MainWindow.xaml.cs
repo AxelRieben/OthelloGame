@@ -25,7 +25,7 @@ namespace Othello
         public MainWindow()
         {
             InitializeComponent();
-            board = new Board();
+            board = new Board(this);
             initGrid();
             UpdateGridValue();
             this.DataContext = board;
@@ -85,8 +85,26 @@ namespace Othello
         {
             if (totalPlayableTiles == 0 || numConsecutiveSkip == 2)
             {
-                board.IsPaused = true;
-                MessageBox.Show("Game over");
+                string message = "";
+
+                if (board.PlayerWhite.Score > board.PlayerBlack.Score)
+                {
+                    message += board.PlayerWhite.Name;
+                    message += " has won the game with ";
+                    message += board.PlayerWhite.Score + " points against " + board.PlayerBlack.Score + " !";
+                }
+                else if(board.PlayerWhite.Score == board.PlayerBlack.Score)
+                {
+                    message = "The game ended with an equality !";
+                }
+                else
+                {
+                    message += board.PlayerBlack.Name;
+                    message += " has won the game with ";
+                    message += board.PlayerBlack.Score + " points against " + board.PlayerWhite.Score + " !";
+                }
+
+                GameOverMessage(message);
             }
             else
             {
@@ -110,9 +128,21 @@ namespace Othello
             }
         }
 
-        private void gameOverMessage()
+        public void GameOverMessage(String message)
         {
+            board.IsPaused = true;
+            message += "\n\n";
+            message += "Would you like to play again ?";
+            MessageBoxResult result = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
 
+            if (result == MessageBoxResult.OK)
+            {
+                board.IsPaused = false;
+                board.initGame();
+                numConsecutiveSkip = 0;
+                UpdateGridValue();
+                this.DataContext = board;
+            }
         }
 
         public void UpdateTilesReference()
@@ -128,7 +158,7 @@ namespace Othello
             }
         }
 
-        private void ButtonPass(object sender, RoutedEventArgs e)
+        private void ButtonPassClick(object sender, RoutedEventArgs e)
         {
             if (board.GetTurn())
             {
@@ -143,7 +173,7 @@ namespace Othello
             UpdateGridValue();
         }
 
-        private void ButtonNewGame(object sender, RoutedEventArgs e)
+        private void ButtonNewGameClick(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("The current game will be lost, are you sure you want to start a new game ?", "New Game", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
@@ -156,7 +186,7 @@ namespace Othello
         }
 
 
-        private void ButtonSave(object sender, RoutedEventArgs e)
+        private void ButtonSaveClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
 
@@ -184,7 +214,7 @@ namespace Othello
             board.IsPaused = false;
         }
 
-        private void ButtonLoad(object sender, RoutedEventArgs e)
+        private void ButtonLoadClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
 
@@ -215,7 +245,7 @@ namespace Othello
             board.IsPaused = false;
         }
 
-        private void ButtonAbout(object sender, RoutedEventArgs e)
+        private void ButtonAboutClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
             MessageBox.Show("This game has been developped by Axel Rieben & Killian Castella at the High School Arc.", "Ohtello Doge vs Grumpy Cat", MessageBoxButton.OK);

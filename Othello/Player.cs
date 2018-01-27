@@ -12,11 +12,8 @@ namespace Othello
         private String name;
         private int score;
         private TimeSpan currentTime;
-        [field: NonSerialized] private Timer timer;
-
-        private const int TOTAL_TIME = 30; //30 minutes
         private TimeSpan interval = new TimeSpan(0, 0, 1);
-
+        [field: NonSerialized] private Timer timer;
         [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
 
         protected void Notify(string propertyName)
@@ -33,7 +30,7 @@ namespace Othello
             Name = name;
             Color = color;
             Score = 2;
-            CurrentTime = new TimeSpan(0, TOTAL_TIME, 0);
+            CurrentTime = new TimeSpan(0, Constants.TOTAL_TIME, 0);
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
@@ -117,7 +114,6 @@ namespace Othello
                 parent.PlayerTimeElapsed();
             }
         }
-
 
         public void StartTimer()
         {

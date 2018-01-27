@@ -70,7 +70,7 @@
         </StackPanel>
 
         <StackPanel x:Name="PanelBlack" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Grumpy Cat</TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Name}"></TextBlock>
             <Image Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
@@ -79,11 +79,11 @@
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Score}"></TextBlock>
             </StackPanel>
 
-            <Button x:Name="ButtonPassBlack" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPass">Pass</Button>
+            <Button x:Name="ButtonPassBlack" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPassClick">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelWhite" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Doge</TextBlock>
+            <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Name}"></TextBlock>
             <Image Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
@@ -92,14 +92,14 @@
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Score}"></TextBlock>
             </StackPanel>
 
-            <Button x:Name="ButtonPassWhite" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPass">Pass</Button>
+            <Button x:Name="ButtonPassWhite" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPassClick">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelControl" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Style="{StaticResource ButtonStyle}"  Click="ButtonNewGame">New Game</Button>
-            <Button Style="{StaticResource ButtonStyle}" Click="ButtonSave">Save</Button>
-            <Button Style="{StaticResource ButtonStyle}" Click="ButtonLoad">Load</Button>
-            <Button Style="{StaticResource ButtonStyle}" Click="ButtonAbout">About</Button>
+            <Button x:Name="ButtonNewGame" Style="{StaticResource ButtonStyle}"  Click="ButtonNewGameClick">New Game</Button>
+            <Button x:Name="ButtonSave" Style="{StaticResource ButtonStyle}" Click="ButtonSaveClick">Save</Button>
+            <Button x:Name="ButtonLoad" Style="{StaticResource ButtonStyle}" Click="ButtonLoadClick">Load</Button>
+            <Button x:Name="ButtonAbout" Style="{StaticResource ButtonStyle}" Click="ButtonAboutClick">About</Button>
         </StackPanel>
 
         <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" >
