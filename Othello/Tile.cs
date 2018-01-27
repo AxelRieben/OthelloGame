@@ -42,6 +42,8 @@ namespace Othello
             this.tileState = state;
         }
 
+        #region Property
+
         public bool IsPlayable
         {
             get
@@ -78,6 +80,10 @@ namespace Othello
                 board = value;
             }
         }
+
+        #endregion
+
+        #region Event
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
@@ -118,5 +124,8 @@ namespace Othello
                 }
             }
         }
+
+        #endregion
+
     }
 }

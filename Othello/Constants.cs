@@ -19,7 +19,7 @@ namespace Othello
         public static int GRID_SIZE = 8;
 
         //Player time
-        public static int TOTAL_TIME = 1; //Official 30 minutes
+        public static int TOTAL_TIME = 30; //Official 30 minutes
 
         //Images
         public static String IMG_FOLDER = "images/";

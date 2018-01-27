@@ -16,14 +16,6 @@ namespace Othello
         [field: NonSerialized] private Timer timer;
         [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void Notify(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
         public Player(Board parent, String name, int color)
         {
             this.parent = parent;
@@ -45,6 +37,8 @@ namespace Othello
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
+
+        #region Property
 
         public TimeSpan CurrentTime
         {
@@ -102,6 +96,10 @@ namespace Othello
             }
         }
 
+        #endregion
+
+        #region Method
+
         private void decrementTime(Object source, ElapsedEventArgs e)
         {
             if (currentTime.TotalSeconds >= 1)
@@ -124,5 +122,19 @@ namespace Othello
         {
             timer.Stop();
         }
+
+        #endregion
+
+        #region Event
+
+        protected void Notify(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 }

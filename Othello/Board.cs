@@ -59,6 +59,8 @@ namespace Othello
             mainWindows = boardSource.mainWindows;
         }
 
+        #region Property
+
         public Player PlayerBlack
         {
             get
@@ -81,33 +83,6 @@ namespace Othello
             {
                 playerWhite = value;
             }
-        }
-
-        public void initGame()
-        {
-            //set an empty board
-            for (int i = 0; i < board.GetLength(0); i++)
-            {
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    board[i, j] = -1;
-                }
-            }
-
-            //add starting disc
-            board[3, 3] = 0;
-            board[4, 3] = 1;
-            board[3, 4] = 1;
-            board[4, 4] = 0;
-
-            isWhite = false;
-            isPaused = false;
-
-
-            //create 2 player
-            playerWhite = new Player(this, "Doge", 0);
-            playerBlack = new Player(this, "Grumpy Cat", 1);
-            playerBlack.StartTimer();
         }
 
         public bool IsPaused
@@ -139,6 +114,37 @@ namespace Othello
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region Public Method
+
+        public void initGame()
+        {
+            //set an empty board
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    board[i, j] = -1;
+                }
+            }
+
+            //add starting disc
+            board[3, 3] = 0;
+            board[4, 3] = 1;
+            board[3, 4] = 1;
+            board[4, 4] = 0;
+
+            isWhite = false;
+            isPaused = false;
+
+
+            //create 2 player
+            playerWhite = new Player(this, "Doge", 0);
+            playerBlack = new Player(this, "Grumpy Cat", 1);
+            playerBlack.StartTimer();
         }
 
         public bool Save(string filename, ref Board board)
@@ -278,6 +284,11 @@ namespace Othello
 
             this.isWhite = !this.isWhite;
         }
+
+
+        #endregion
+
+        #region Private Method
 
         private bool IsPlayableFlipOption(int column, int line, bool isWhite, bool flipCatchedTile)
         {
@@ -459,5 +470,7 @@ namespace Othello
                 currentLine = currentLine + yMove;
             }
         }
+
+        #endregion
     }
 }
