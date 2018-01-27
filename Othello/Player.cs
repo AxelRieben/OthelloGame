@@ -7,6 +7,7 @@ namespace Othello
     [Serializable]
     public class Player : INotifyPropertyChanged
     {
+        private Board parent;
         private int color;
         private String name;
         private int score;
@@ -26,15 +27,20 @@ namespace Othello
             }
         }
 
-        public Player(String name, int color)
+        public Player(Board parent, String name, int color)
         {
+            this.parent = parent;
             Name = name;
             Color = color;
-            Reset();
+            Score = 2;
+            CurrentTime = new TimeSpan(0, TOTAL_TIME, 0);
+            timer = new Timer(1000);
+            timer.Elapsed += decrementTime;
         }
 
         public Player(Player sourcePlayer)
         {
+            parent = sourcePlayer.parent;
             Name = sourcePlayer.Name;
             Color = sourcePlayer.Color;
             Score = sourcePlayer.Score;
@@ -42,15 +48,6 @@ namespace Othello
             timer = new Timer(1000);
             timer.Elapsed += decrementTime;
         }
-
-        public void Reset()
-        {
-            Score = 2;
-            CurrentTime = new TimeSpan(0, TOTAL_TIME, 0);
-            timer = new Timer(1000);
-            timer.Elapsed += decrementTime;
-        }
-
 
         public TimeSpan CurrentTime
         {
@@ -117,6 +114,7 @@ namespace Othello
             else
             {
                 timer.Stop();
+                parent.PlayerTimeElapsed();
             }
         }
 

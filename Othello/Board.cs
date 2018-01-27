@@ -22,19 +22,15 @@ namespace Othello
 
         public Board()
         {
-            playerWhite = new Player("White", 0);
-            playerBlack = new Player("Black", 1);
             board = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
-            isWhite = false;
-            isPaused = false;
             initGame();
         }
 
         public Board(int[,] board)
         {
             this.board = (int[,])board.Clone();
-            playerWhite = new Player("White", 0);
-            playerBlack = new Player("Black", 1);
+            playerWhite = new Player(this, "Doge", 0);
+            playerBlack = new Player(this, "Grumpy Cat", 1);
             //set score for both player from board
             for (int i = 0; i <= 7; i++)
             {
@@ -101,9 +97,13 @@ namespace Othello
             board[3, 4] = 1;
             board[4, 4] = 0;
 
+            isWhite = false;
+            isPaused = false;
+
+
             //create 2 player
-            playerWhite.Reset();
-            playerBlack.Reset();
+            playerWhite = new Player(this, "Doge", 0);
+            playerBlack = new Player(this, "Grumpy Cat", 1);
             playerBlack.StartTimer();
         }
 
@@ -193,6 +193,11 @@ namespace Othello
             return true;
         }
 
+        public void PlayerTimeElapsed()
+        {
+
+        }
+
         public int GetBlackScore()
         {
             return playerBlack.Score;
@@ -222,7 +227,7 @@ namespace Othello
         {
             if (IsPlayableFlipOption(column, line, isWhite, true))
             {
-                switchTurn();
+                SwitchTurn();
                 return true;
             }
             else
@@ -231,7 +236,7 @@ namespace Othello
             }
         }
 
-        private void switchTurn()
+        public void SwitchTurn()
         {
             if (isWhite)
             {

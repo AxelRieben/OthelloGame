@@ -78,6 +78,8 @@
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Score}"></TextBlock>
             </StackPanel>
+
+            <Button x:Name="ButtonPassBlack" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPass">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelWhite" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -89,6 +91,8 @@
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Score</TextBlock>
                 <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Score}"></TextBlock>
             </StackPanel>
+
+            <Button x:Name="ButtonPassWhite" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPass">Pass</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelControl" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
