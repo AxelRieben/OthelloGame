@@ -328,7 +328,7 @@ namespace Othello
         private void ButtonAboutClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
-            MessageBox.Show("This game has been developped by Axel Rieben & Killian Castella at the High School Arc.", "About", MessageBoxButton.OK);
+            MessageBox.Show("This game has been developped by Axel Rieben & Killian Castella at the High School Arc.\n\nRules\nhttp://www.ffothello.org/othello/regles-du-jeu/", "About", MessageBoxButton.OK);
             board.IsPaused = false;
         }
 
