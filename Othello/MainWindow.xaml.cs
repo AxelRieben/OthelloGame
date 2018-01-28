@@ -68,7 +68,22 @@ namespace Othello
                 }
             }
 
+            updateImagePlayer();
             checkGameEnd(numPlayableTiles, numEmptyTiles);
+        }
+
+        private void updateImagePlayer()
+        {
+            if(board.GetTurn())
+            {
+                ImageBlack.Opacity = 0.5;
+                ImageWhite.Opacity = 1;
+            }
+            else
+            {
+                ImageWhite.Opacity = 0.5;
+                ImageBlack.Opacity = 1;
+            }
         }
 
         #endregion

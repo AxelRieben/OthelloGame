@@ -14,7 +14,7 @@
     <Window.Resources>
         <Style x:Key="TextStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Impact"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
 
@@ -64,14 +64,27 @@
 
     </Window.Resources>
 
-    <DockPanel LastChildFill="True">
-        <StackPanel x:Name="PanelTitle" Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" FontSize="36" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Othello Doge VS Grumpy Cat</TextBlock>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        
+        <StackPanel x:Name="PanelTitle" Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Margin="10" FontSize="40" Style="{StaticResource TextStyle}" HorizontalAlignment="Center">Othello Doge VS Grumpy Cat</TextBlock>
         </StackPanel>
 
-        <StackPanel x:Name="PanelBlack" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PanelBlack" Orientation="Vertical" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Name}"></TextBlock>
-            <Image Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <Image x:Name="ImageBlack" Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
             <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -82,9 +95,9 @@
             <Button x:Name="ButtonPassBlack" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPassClick">Pass</Button>
         </StackPanel>
 
-        <StackPanel x:Name="PanelWhite" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PanelWhite" Orientation="Vertical" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Name}"></TextBlock>
-            <Image Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <Image x:Name="ImageWhite" Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
             <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -95,14 +108,14 @@
             <Button x:Name="ButtonPassWhite" Style="{StaticResource ButtonStyle}" Visibility="Hidden" Click="ButtonPassClick">Pass</Button>
         </StackPanel>
 
-        <StackPanel x:Name="PanelControl" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PanelControl" Orientation="Horizontal" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="ButtonNewGame" Style="{StaticResource ButtonStyle}"  Click="ButtonNewGameClick">New Game</Button>
             <Button x:Name="ButtonSave" Style="{StaticResource ButtonStyle}" Click="ButtonSaveClick">Save</Button>
             <Button x:Name="ButtonLoad" Style="{StaticResource ButtonStyle}" Click="ButtonLoadClick">Load</Button>
             <Button x:Name="ButtonAbout" Style="{StaticResource ButtonStyle}" Click="ButtonAboutClick">About</Button>
         </StackPanel>
 
-        <Grid x:Name="GridBoard" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" >
+        <Grid x:Name="GridBoard" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="*" />
                 <ColumnDefinition  Width="*" />
@@ -126,5 +139,5 @@
             </Grid.RowDefinitions>
         </Grid>
 
-    </DockPanel>
+    </Grid>
 </Window>
