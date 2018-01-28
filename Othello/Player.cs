@@ -4,14 +4,20 @@ using System.Timers;
 
 namespace Othello
 {
+    /// <summary>
+    /// Class representing one of the two player of the game
+    /// </summary>
     [Serializable]
     public class Player : INotifyPropertyChanged
     {
         private Board parent;
+
+        //Player specific attributes
         private int color;
         private String name;
         private int score;
         private TimeSpan currentTime;
+
         private TimeSpan interval = new TimeSpan(0, 0, 1);
         [field: NonSerialized] private Timer timer;
         [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
@@ -100,6 +106,11 @@ namespace Othello
 
         #region Method
 
+        /// <summary>
+        /// Decrement the player TimeSpan and stop the game if the time has elapsed.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void decrementTime(Object source, ElapsedEventArgs e)
         {
             if (currentTime.TotalSeconds >= 1)
@@ -113,17 +124,26 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Reset the score and timer of the player
+        /// </summary>
         public void Reset()
         {
             Score = 2;
             CurrentTime = new TimeSpan(0, Constants.TOTAL_TIME, 0);
         }
 
+        /// <summary>
+        /// Start the timer
+        /// </summary>
         public void StartTimer()
         {
             timer.Start();
         }
 
+        /// <summary>
+        /// Stop the timer
+        /// </summary>
         public void StopTimer()
         {
             timer.Stop();
@@ -133,9 +153,13 @@ namespace Othello
 
         #region Event
 
+        /// <summary>
+        /// Notify the UI that changes in data binding has occured
+        /// </summary>
+        /// <param name="propertyName">Property name that has been modified</param>
         protected void Notify(string propertyName)
         {
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }

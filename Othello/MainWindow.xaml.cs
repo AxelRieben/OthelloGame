@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 
 namespace Othello
 {
+    /// <summary>
+    /// Class representing the UI
+    /// </summary>
     public partial class MainWindow : Window
     {
         private Tile[,] tiles;
@@ -32,16 +35,20 @@ namespace Othello
 
         #region Public Method
 
+        /// <summary>
+        /// Refresh the button of the grid according to the board state
+        /// </summary>
         public void UpdateGridValue()
         {
             int[,] gridBoard = board.GetBoard();
             int numPlayableTiles = 0;
-            int totalPlayableTiles = 0;
+            int numEmptyTiles = 0;
 
             for (int y = 0; y < Constants.GRID_SIZE; y++)
             {
                 for (int x = 0; x < Constants.GRID_SIZE; x++)
                 {
+                    //Set the playable tiles
                     if (board.IsPlayable(x, y, board.GetTurn()))
                     {
                         tiles[x, y].IsPlayable = true;
@@ -54,29 +61,35 @@ namespace Othello
 
                     if (gridBoard[x, y] == -1)
                     {
-                        totalPlayableTiles++;
+                        numEmptyTiles++;
                     }
 
                     tiles[x, y].State = gridBoard[x, y];
                 }
             }
 
-            checkGameEnd(numPlayableTiles, totalPlayableTiles);
+            checkGameEnd(numPlayableTiles, numEmptyTiles);
         }
 
         #endregion
 
         #region private Method
 
+        /// <summary>
+        /// Reset the game
+        /// </summary>
         private void resetMainWindows()
         {
-            board.initGame();
-            UpdateTilesReference();
+            board.InitGame();
+            updateTilesReference();
             UpdateGridValue();
-            this.DataContext = board;
+            DataContext = board;
             numConsecutiveSkip = 0;
         }
 
+        /// <summary>
+        /// Create the buttons in the grid and store them in an array
+        /// </summary>
         private void initGrid()
         {
             Style style = (Style)FindResource("GridButton");
@@ -94,9 +107,15 @@ namespace Othello
             }
         }
 
-        private void checkGameEnd(int numPlayableTiles, int totalPlayableTiles)
+        /// <summary>
+        /// Check if the game is over
+        /// </summary>
+        /// <param name="numPlayableTiles"></param>
+        /// <param name="numEmptyTiles"></param>
+        private void checkGameEnd(int numPlayableTiles, int numEmptyTiles)
         {
-            if (totalPlayableTiles == 0 || numConsecutiveSkip == 2)
+            //The game is over if the board is full or if the two player have skiped
+            if (numEmptyTiles == 0 || numConsecutiveSkip == 2)
             {
                 string message = "";
 
@@ -122,6 +141,7 @@ namespace Othello
             }
             else
             {
+                //If a player has no playable tiles he needs to press the pass button
                 if (numPlayableTiles == 0)
                 {
                     MessageBox.Show("You can't play, you need to pass", "Pass");
@@ -142,7 +162,10 @@ namespace Othello
             }
         }
 
-        private void UpdateTilesReference()
+        /// <summary>
+        /// Update the tiles board reference when a game has been loaded
+        /// </summary>
+        private void updateTilesReference()
         {
             int[,] gridBoard = board.GetBoard();
 
@@ -158,6 +181,12 @@ namespace Othello
         #endregion
 
         #region Event
+
+        /// <summary>
+        /// Handle click on the pass button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonPassClick(object sender, RoutedEventArgs e)
         {
             if (board.GetTurn())
@@ -173,6 +202,11 @@ namespace Othello
             UpdateGridValue();
         }
 
+        /// <summary>
+        /// Handle the click on the new game button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonNewGameClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
@@ -184,10 +218,16 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Handle the click on the save button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSaveClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
 
+            //Open a file dialog
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Title = "Save the game";
             saveDialog.FileName = "game";
@@ -212,10 +252,16 @@ namespace Othello
             board.IsPaused = false;
         }
 
+        /// <summary>
+        /// Handle the click on the load button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonLoadClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
 
+            //Open a file dialog
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Title = "Load a game";
             openDialog.FileName = "game.othlo";
@@ -228,8 +274,8 @@ namespace Othello
                 string filename = openDialog.FileName;
                 if (board.Load(filename, ref board))
                 {
-                    this.DataContext = board;
-                    UpdateTilesReference();
+                    DataContext = board;
+                    updateTilesReference();
                     UpdateGridValue();
                     MessageBox.Show("Game has been load !", "Loaded", MessageBoxButton.OK);
                 }
@@ -243,10 +289,15 @@ namespace Othello
             board.IsPaused = false;
         }
 
+        /// <summary>
+        /// Handle the click on the about button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonAboutClick(object sender, RoutedEventArgs e)
         {
             board.IsPaused = true;
-            MessageBox.Show("This game has been developped by Axel Rieben & Killian Castella at the High School Arc.", "Ohtello Doge vs Grumpy Cat", MessageBoxButton.OK);
+            MessageBox.Show("This game has been developped by Axel Rieben & Killian Castella at the High School Arc.", "About", MessageBoxButton.OK);
             board.IsPaused = false;
         }
 

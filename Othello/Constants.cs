@@ -43,7 +43,6 @@ namespace Othello
         {
             ImageBrush brush = new ImageBrush();
             brush.Opacity = 0;
-
             return brush;
         }
     }

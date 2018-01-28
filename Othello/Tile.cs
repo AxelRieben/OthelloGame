@@ -11,26 +11,31 @@ using System.Windows.Media;
 
 namespace Othello
 {
+    /// <summary>
+    /// Class representing a button in the game grid
+    /// </summary>
     class Tile : Button
     {
-        private MainWindow parent;
+        private MainWindow mainWindow;
         private Board board;
 
         private int posX;
         private int posY;
-        private int tileState; //-1 = no one, 0 = Doge, 1 = Grumpy
+        private int state; //-1 = no one, 0 = Doge, 1 = Grumpy
         private bool isPlayable;
 
+        //Brushes
         private ImageBrush[] BRUSHES = { Constants.GetTansparentBrush(), Constants.GetBrush(Constants.IMG_DOGE), Constants.GetBrush(Constants.IMG_GRUMPY) };
         private ImageBrush[] BRUSHES_TRANSPARENT = { Constants.GetBrush(Constants.IMG_DOGE), Constants.GetBrush(Constants.IMG_GRUMPY) };
 
         public Tile(MainWindow parent, Board board, int x, int y, int state)
         {
-            this.posX = x;
-            this.posY = y;
+            posX = x;
+            posY = y;
             this.board = board;
-            this.parent = parent;
+            mainWindow = parent;
 
+            //Set the opacity of the semi-transparent token
             BRUSHES_TRANSPARENT[0].Opacity = 0.5;
             BRUSHES_TRANSPARENT[1].Opacity = 0.5;
 
@@ -38,8 +43,8 @@ namespace Othello
             Grid.SetRow(this, y);
             BorderBrush = Brushes.White;
 
-            isPlayable = false;
-            this.tileState = state;
+            IsPlayable = false;
+            State = state;
         }
 
         #region Property
@@ -60,12 +65,12 @@ namespace Othello
         {
             get
             {
-                return tileState;
+                return state;
             }
             set
             {
-                tileState = value;
-                this.Background = BRUSHES[value + 1];
+                state = value;
+                Background = BRUSHES[value + 1];
             }
         }
 
@@ -85,6 +90,10 @@ namespace Othello
 
         #region Event
 
+        /// <summary>
+        /// Show a transparent token when the mouse is over and if the tile is playable
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -92,35 +101,42 @@ namespace Othello
             {
                 if (board.GetTurn())
                 {
-                    this.Background = BRUSHES_TRANSPARENT[0];
+                    Background = BRUSHES_TRANSPARENT[0];
                 }
                 else
                 {
-                    this.Background = BRUSHES_TRANSPARENT[1];
+                    Background = BRUSHES_TRANSPARENT[1];
                 }
             }
         }
 
+        /// <summary>
+        /// Remove the transparent token when the mouse leave the tile
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
             if (isPlayable)
             {
-                this.Background = BRUSHES[0];
+                Background = BRUSHES[0];
             }
         }
 
+        /// <summary>
+        /// Play the movement when the tile is clicked
+        /// </summary>
         protected override void OnClick()
         {
             if (isPlayable)
             {
                 if (board.PlayMove(posX, posY, board.GetTurn()))
                 {
-                    parent.UpdateGridValue();
+                    mainWindow.UpdateGridValue();
                 }
                 else
                 {
-                    MessageBox.Show("Illegal movment");
+                    MessageBox.Show("Illegal movement !");
                 }
             }
         }

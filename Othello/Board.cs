@@ -10,13 +10,17 @@ using System.Windows;
 
 namespace Othello
 {
+    /// <summary>
+    /// Class representing the game logic
+    /// </summary>
     [Serializable]
     public class Board
     {
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
-        //starting with black
+
+        //Game state boolean
         bool isWhite;
         bool isPaused;
 
@@ -25,7 +29,7 @@ namespace Othello
             board = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
             playerWhite = new Player(this, "Doge", 0);
             playerBlack = new Player(this, "Grumpy Cat", 1);
-            initGame();
+            InitGame();
         }
 
         public Board(int[,] board)
@@ -33,7 +37,8 @@ namespace Othello
             this.board = (int[,])board.Clone();
             playerWhite = new Player(this, "Doge", 0);
             playerBlack = new Player(this, "Grumpy Cat", 1);
-            //set score for both player from board
+
+            //Set score for both player from board
             for (int i = 0; i <= 7; i++)
             {
                 for (int j = 0; j <= 7; j++)
@@ -90,6 +95,8 @@ namespace Othello
             set
             {
                 isPaused = value;
+                
+                //Stop or start the timers according to the value
                 if (value)
                 {
                     if (isWhite)
@@ -119,9 +126,12 @@ namespace Othello
 
         #region Public Method
 
-        public void initGame()
+        /// <summary>
+        /// Reinitialize the board and the players
+        /// </summary>
+        public void InitGame()
         {
-            //set an empty board
+            //Set an empty board
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int j = 0; j < board.GetLength(1); j++)
@@ -130,22 +140,28 @@ namespace Othello
                 }
             }
 
-            //add starting disc
+            //Add starting disc
             board[3, 3] = 0;
             board[4, 3] = 1;
             board[3, 4] = 1;
             board[4, 4] = 0;
 
+            //Initatial state
             isWhite = false;
             isPaused = false;
 
-
-            //create 2 player
-            playerWhite.Reset(); // = new Player(this, "Doge", 0);
-            playerBlack.Reset(); // = new Player(this, "Grumpy Cat", 1);
+            //Reset the two players
+            playerWhite.Reset();
+            playerBlack.Reset();
             playerBlack.StartTimer();
         }
 
+        /// <summary>
+        /// Serialize the given board into a file named with the given filename
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="board"></param>
+        /// <returns>True if no error occured</returns>
         public bool Save(string filename, ref Board board)
         {
             Stream stream = null;
@@ -158,7 +174,6 @@ namespace Othello
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());  //TODO Remove
                 return false;
             }
             finally
@@ -172,6 +187,12 @@ namespace Othello
             return true;
         }
 
+        /// <summary>
+        /// Deserialize the game from the given file and assign it to the given board
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="board"></param>
+        /// <returns>True if no error occured</returns>
         public bool Load(string filename, ref Board board)
         {
             Stream stream = null;
@@ -182,12 +203,13 @@ namespace Othello
                 stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 Board serializedBoard = (Board)formatter.Deserialize(stream);
                 board = new Board(serializedBoard);
+
+                //Need to reallocate the timers
                 board.PlayerBlack = new Player(serializedBoard.PlayerBlack);
                 board.playerWhite = new Player(serializedBoard.PlayerWhite);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString()); //TODO Remove
                 return false;
             }
             finally
@@ -201,6 +223,9 @@ namespace Othello
             return true;
         }
 
+        /// <summary>
+        /// Show a message when a player has elapsed is time limit
+        /// </summary>
         public void PlayerTimeElapsed()
         {
             string message = "";
@@ -251,11 +276,25 @@ namespace Othello
             return isWhite;
         }
 
+        /// <summary>
+        /// Check if the movement is valid
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <returns></returns>
         public bool IsPlayable(int column, int line, bool isWhite)
         {
             return IsPlayableFlipOption(column, line, isWhite, false);
         }
 
+        /// <summary>
+        /// Play the movement
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <returns></returns>
         public bool PlayMove(int column, int line, bool isWhite)
         {
             if (IsPlayableFlipOption(column, line, isWhite, true))
@@ -269,6 +308,9 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Switch between black/white turn and start/stop the timers
+        /// </summary>
         public void SwitchTurn()
         {
             if (isWhite)
@@ -282,9 +324,8 @@ namespace Othello
                 playerWhite.StartTimer();
             }
 
-            this.isWhite = !this.isWhite;
+            isWhite = !isWhite;
         }
-
 
         #endregion
 
