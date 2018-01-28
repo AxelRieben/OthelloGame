@@ -113,6 +113,12 @@ namespace Othello
             }
         }
 
+        public void Reset()
+        {
+            Score = 2;
+            CurrentTime = new TimeSpan(0, Constants.TOTAL_TIME, 0);
+        }
+
         public void StartTimer()
         {
             timer.Start();

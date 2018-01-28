@@ -25,7 +25,7 @@ namespace Othello
         public MainWindow()
         {
             InitializeComponent();
-            board = new Board(this);
+            board = new Board();
             initGrid();
             resetMainWindows();
         }
@@ -62,19 +62,6 @@ namespace Othello
             }
 
             checkGameEnd(numPlayableTiles, totalPlayableTiles);
-        }
-
-        public void GameOverMessage(String message)
-        {
-            board.IsPaused = true;
-            message += "\n\n";
-            message += "Would you like to play again ?";
-            MessageBoxResult result = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                resetMainWindows();
-            }
         }
 
         #endregion
@@ -130,7 +117,8 @@ namespace Othello
                     message += board.PlayerBlack.Score + " points against " + board.PlayerWhite.Score + " !";
                 }
 
-                GameOverMessage(message);
+                board.IsPaused = true;
+                MessageBox.Show(message, "Game Over", MessageBoxButton.OK);
             }
             else
             {

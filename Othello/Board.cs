@@ -13,7 +13,6 @@ namespace Othello
     [Serializable]
     public class Board
     {
-        private MainWindow mainWindows;
         private int[,] board;
         private Player playerBlack;
         private Player playerWhite;
@@ -21,10 +20,11 @@ namespace Othello
         bool isWhite;
         bool isPaused;
 
-        public Board(MainWindow parent)
+        public Board()
         {
-            mainWindows = parent;
             board = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
+            playerWhite = new Player(this, "Doge", 0);
+            playerBlack = new Player(this, "Grumpy Cat", 1);
             initGame();
         }
 
@@ -56,7 +56,6 @@ namespace Othello
             playerWhite = boardSource.PlayerWhite;
             playerBlack = boardSource.PlayerBlack;
             isWhite = boardSource.GetTurn();
-            mainWindows = boardSource.mainWindows;
         }
 
         #region Property
@@ -142,8 +141,8 @@ namespace Othello
 
 
             //create 2 player
-            playerWhite = new Player(this, "Doge", 0);
-            playerBlack = new Player(this, "Grumpy Cat", 1);
+            playerWhite.Reset(); // = new Player(this, "Doge", 0);
+            playerBlack.Reset(); // = new Player(this, "Grumpy Cat", 1);
             playerBlack.StartTimer();
         }
 
@@ -228,7 +227,8 @@ namespace Othello
 
             message += " has won the game !";
 
-            mainWindows.GameOverMessage(message);
+            IsPaused = true;
+            MessageBox.Show(message, "Game Over", MessageBoxButton.OK);
         }
 
         public int GetBlackScore()
