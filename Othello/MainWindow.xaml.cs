@@ -72,20 +72,6 @@ namespace Othello
             checkGameEnd(numPlayableTiles, numEmptyTiles);
         }
 
-        private void updateImagePlayer()
-        {
-            if(board.GetTurn())
-            {
-                ImageBlack.Opacity = 0.5;
-                ImageWhite.Opacity = 1;
-            }
-            else
-            {
-                ImageWhite.Opacity = 0.5;
-                ImageBlack.Opacity = 1;
-            }
-        }
-
         #endregion
 
         #region private Method
@@ -190,6 +176,36 @@ namespace Othello
                 {
                     tiles[x, y].Board = board;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Update the images of the players on the UI
+        /// </summary>
+        private void updateImagePlayer()
+        {
+            //Transparency
+            if (board.GetTurn())
+            {
+                ImageBlack.Opacity = 0.5;
+                ImageWhite.Opacity = 1;
+            }
+            else
+            {
+                ImageWhite.Opacity = 0.5;
+                ImageBlack.Opacity = 1;
+            }
+
+            //Crown
+            if (board.GetWhiteScore() > board.GetBlackScore())
+            {
+                ImageCrownWhite.Visibility = Visibility.Visible;
+                ImageCrownBlack.Visibility = Visibility.Hidden;
+            }
+            else if (board.GetWhiteScore() < board.GetBlackScore())
+            {
+                ImageCrownWhite.Visibility = Visibility.Hidden;
+                ImageCrownBlack.Visibility = Visibility.Visible;
             }
         }
 

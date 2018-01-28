@@ -84,7 +84,8 @@
 
         <StackPanel x:Name="PanelBlack" Orientation="Vertical" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerBlack.Name}"></TextBlock>
-            <Image x:Name="ImageBlack" Margin="10" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <Image x:Name="ImageCrownBlack" Source="images/crown.png" Width="64" Height="64" Stretch="UniformToFill" Visibility="Hidden"/>
+            <Image x:Name="ImageBlack" Source="images/grumpy.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerBlack.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
             <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -97,7 +98,8 @@
 
         <StackPanel x:Name="PanelWhite" Orientation="Vertical" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center" Text="{Binding PlayerWhite.Name}"></TextBlock>
-            <Image x:Name="ImageWhite" Margin="10" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
+            <Image x:Name="ImageCrownWhite" Source="images/crown.png" Width="64" Height="64" Stretch="UniformToFill" Visibility="Hidden"/>
+            <Image x:Name="ImageWhite" Source="images/doge.png" Width="124" Height="124" Stretch="UniformToFill"/>
             <TextBlock Margin="10" Style="{StaticResource TextStyle}" HorizontalAlignment="Center"  Text="{Binding PlayerWhite.CurrentTime, StringFormat={}{0:mm}:{0:ss}}"></TextBlock>
 
             <StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
